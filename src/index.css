@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@config {
+  darkMode: "class";
+}
+
+@plugin "daisyui";
+@theme {
+  --theme-light: light;
+  --theme-dark: dark;
+}
+html {
+  transition: background 0.3s, color 0.3s;
+}
