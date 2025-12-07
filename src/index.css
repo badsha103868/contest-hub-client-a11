@@ -1,6 +1,11 @@
-@import "tailwindcss";
-@plugin "daisyui";
-@theme {
-  --theme-light: light;
-  --theme-dark: dark;
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "daisyui";
+
+body {
+  font-family: "Urbanist", sans-serif;
 }

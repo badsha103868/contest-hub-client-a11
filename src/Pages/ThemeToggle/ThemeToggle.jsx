@@ -1,33 +1,23 @@
-import { useEffect, useState } from "react";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { BsSun, BsMoon } from "react-icons/bs";
 
-const ThemeToggle = () => {
-  const [theme, setTheme] = useState("light");
+export default function ThemeToggle() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
+  // apply theme to <html>
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    }
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
+  // toggle function
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="btn btn-ghost flex items-center gap-2"
-    >
-      {theme === "light" ? <FaMoon /> : <FaSun />}
-      {theme === "light" ? "Dark" : "Light"}
+    <button onClick={toggleTheme} className="btn btn-ghost btn-circle text-xl">
+      {theme === "light" ? <BsMoon /> : <BsSun />}
     </button>
   );
-};
-
-export default ThemeToggle;
+}
