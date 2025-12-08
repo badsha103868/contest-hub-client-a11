@@ -27,8 +27,8 @@ const Navbar = () => {
   return (
     <div className="navbar bg-primary text-white shadow-sm">
       <div className="navbar-start">
-        <div className="dropdown z-50 text-black">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden z-50">
+        <div className="dropdown z-50 ">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -47,7 +47,7 @@ const Navbar = () => {
 
           <ul
             tabIndex={-1}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-100 text-primary rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             {links}
           </ul>
@@ -56,7 +56,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center gap-1">
           <img
-            className="w-[30px] h-[30px] md:w-[35px] md:h-[35px] rounded-full"
+            className="w-[25px] h-[25px] md:w-[30px] md:h-[30px] ml-1 rounded-full"
             src={logoImg}
             alt="Logo"
           />
