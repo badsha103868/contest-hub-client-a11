@@ -5,6 +5,9 @@ import AllContests from "../Pages/AllContests/AllContests";
 import About from "../Pages/ExtraPages/About";
 import Contact from "../Pages/ExtraPages/Contact";
 import DashboardLayout from "../Layouts/DashboardLayout";
+import AuthLayout from "../Layouts/AuthLayout";
+import Login from "../Pages/Auth/Login/Login";
+import Register from "../Pages/Auth/Register/Register";
 
 export const router = createBrowserRouter([
   {
@@ -34,4 +37,18 @@ export const router = createBrowserRouter([
      
     ]
   },
+  {
+    path: '/',
+    Component:AuthLayout,
+    children:[
+      {
+        path:'/login',
+        Component:Login
+      },
+      {
+        path:'/register',
+        Component:Register
+      }
+    ]
+  }
 ]);
