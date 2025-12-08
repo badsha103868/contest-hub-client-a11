@@ -1,9 +1,22 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import ThemeToggle from "../../ThemeToggle/ThemeToggle";
 import logoImg from "../../../assets/logo.png";
+import useAuth from "../../../Hooks/useAuth";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
+  const handleLogout = () => {
+    logOut()
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const links = (
     <>
       <li>
@@ -18,9 +31,11 @@ const Navbar = () => {
       <li>
         <NavLink to="/contact">Contact</NavLink>
       </li>
-      <li>
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+      )}
     </>
   );
 
@@ -71,16 +86,31 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
-        <div className="flex items-center gap-3">
-          <div className="w-10 mr-2 h-10 rounded-full overflow-hidden border">
-            <img
-              src="https://i.ibb.co/Y0WHx8Y/default-avatar.png"
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+        {user && (
+          <div className="flex items-center gap-3">
+            {/* User Image */}
+            <div className="w-10 mr-2 h-10 rounded-full overflow-hidden border">
+              <img
+                src={
+                  user.photoURL || "https://i.ibb.co/Y0WHx8Y/default-avatar.png"
+                }
+                alt="Profile"
+                className="w-full  h-full object-cover"
+              />
+            </div>
           </div>
-          <ThemeToggle />
-        </div>
+        )}
+
+        {user ? (
+          <a onClick={handleLogout} className="btn">
+            Logout
+          </a>
+        ) : (
+          <Link to="/login" className="btn bg-gray-300 m-2">
+            Login
+          </Link>
+        )}
+        <ThemeToggle />
       </div>
     </div>
   );
