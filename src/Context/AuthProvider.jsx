@@ -1,7 +1,8 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { auth } from "../Firebase/firebase.init";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -10,7 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-export const AuthContext = createContext();
+ const googleProvider = new GoogleAuthProvider()
 const AuthProvider = ({ children }) => {
   // user state
   const [user, setUser] = useState(null);
@@ -18,25 +19,25 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // register
-  const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
-  };
+ const registerUser = (email, password)=>{
+     setLoading
+    return createUserWithEmailAndPassword(auth, email, password)
+  } 
 
   //  login
-  const signIn = (email, password) => {
-    setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
-  };
+    const signInUser = (email, password)=>{
+     setLoading
+    return signInWithEmailAndPassword(auth, email, password)
+  }
   // log out
   const logOut = () => {
     return signOut(auth);
   };
 
   // update profile
-  const updateUser = (updatedData) => {
-    return updateProfile(auth.currentUser, updatedData);
-  };
+    const updateUserProfile = (profile)=>{
+    return updateProfile(auth.currentUser, profile)
+  }
 
   // forget password
   const forgetPassword = (email) => {
@@ -59,20 +60,20 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const authData = {
+  const authInfo = {
+        registerUser,
+    signInUser,
+    googleSignIn,
+    setLoading,
     user,
     setUser,
-    createUser,
-    signIn,
-    googleSignIn,
     loading,
-    setLoading,
     logOut,
-    updateUser,
-    forgetPassword,
+    updateUserProfile,
+    forgetPassword
   };
 
-  return <AuthContext value={authData}>{children}</AuthContext>;
+  return <AuthContext value={authInfo}>{children}</AuthContext>;
 };
 
 export default AuthProvider;
