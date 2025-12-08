@@ -1,11 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+/* urbanist google font */
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import "daisyui";
-
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true; /* === Colors from your theme.js === */
+  --color-primary: #3b82f6;
+  --color-primary-dark: #1e40af;
+  --color-secondary: #6366f1;
+  --color-accent: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-success: #22c55e;
+  --color-dark: #111827;
+  --color-light: #f3f4f6;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-base-100: #ffffff;
+  --color-base-200: #f3f4f6;
+  --color-base-content: #111827;
+  --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 10px 15px rgba(0, 0, 0, 0.15);
+}
 body {
   font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.menu a.active {
+  text-decoration: underline;
+  color: green;
+}
+.menu a {
+  margin: 5px;
+  text-decoration: none;
 }
