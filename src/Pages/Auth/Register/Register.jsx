@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../Hooks/useAuth';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import axios from 'axios';
 
 const Register = () => {
    const [showPassword, setShowPassword] = useState(false);
@@ -14,22 +15,57 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  // location
    const location = useLocation();
-  console.log("in the register", location);
+
+  // console.log("in the register", location);
+   
+  // use navigate
   const navigate = useNavigate(); 
 
    //  useAuth authInfo data load
-  const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
   
   // handleRegistration
   const handleRegistration = ( data ) =>{
     console.log('after register' ,data)
 
+    const profileImg = data.photo[0]
+
        registerUser(data.email, data.password)
        .then(result =>{
         const user = result.user
         console.log(user)
+    //  image store and photo url pete
+    const formData = new FormData();
+    formData.append('image', profileImg)
+
+    // img bb api url
+    const image_API_URL =`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`
+
+    // url paour jonno axios ar maddome post
+    axios.post(image_API_URL, formData)
+    .then(res=>{
+      console.log('after photo upload ', res.data.data.url)
+      const photoURL= res.data.data.url;
+
+       // update user profile
+        const updateProfile={
+          displayName : data.name,
+          photoURL: photoURL
+        }
+         
+
+      updateUserProfile(updateProfile)
+      .then(()=>{
+        console.log('profile updated done')
         navigate(location?.state || "/");
+      })
+    })
+      
+
+
+      
        })
         .catch((error) => {
         console.log(error.message);
@@ -64,14 +100,14 @@ const Register = () => {
           <label className="label">Photo</label>
           <input
             type="file"
-            // {...register("photo", { required: true })}
+            {...register("photo", {required: true})}                               
             className="file-input w-full"
             placeholder="Your photo"
           />
 
-          {/* {errors.photo?.type === "required" && (
+          {errors.photo?.type === "required" && (
             <p className="text-red-500">Photo is required</p>
-          )} */}
+          )}
 
           {/* email */}
           <label className="label">Email</label>

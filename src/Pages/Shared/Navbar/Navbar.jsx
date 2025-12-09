@@ -88,6 +88,7 @@ const Navbar = () => {
       <div className="navbar-end">
         {user && (
           <div className="flex items-center gap-3">
+            <h3>{user.displayName}</h3>
             {/* User Image */}
             <div className="w-10 mr-2 h-10 rounded-full overflow-hidden border">
               <img
