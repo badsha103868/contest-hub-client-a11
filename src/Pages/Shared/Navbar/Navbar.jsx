@@ -40,7 +40,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-primary text-white shadow-sm">
+    <div className="navbar bg-secondary text-white shadow-sm">
       <div className="navbar-start">
         <div className="dropdown z-50 ">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden ">
@@ -75,7 +75,7 @@ const Navbar = () => {
             src={logoImg}
             alt="Logo"
           />
-          <h3 className="font-medium md:font-semibold lg:font-bold text-xl">
+          <h3 className="font-semibold md:font-semibold lg:font-bold text-xl">
             Contest Hub
           </h3>
         </div>
@@ -106,7 +106,7 @@ const Navbar = () => {
             Logout
           </a>
         ) : (
-          <Link to="/login" className="btn bg-gray-300 m-2">
+          <Link to="/login" className="btn btn-primary text-white m-2">
             Login
           </Link>
         )}

@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
   };
 
   // google sign in
-  const googleSignIn = (googleProvider) => {
+  const googleSignIn = () => {
     return signInWithPopup(auth, googleProvider);
   };
 
