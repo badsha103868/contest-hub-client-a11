@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router";
 import ThemeToggle from "../../ThemeToggle/ThemeToggle";
 import logoImg from "../../../assets/logo.png";
@@ -7,110 +7,146 @@ import useAuth from "../../../Hooks/useAuth";
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const mobileMenuRef = useRef(null);
+  const profileRef = useRef(null);
+
+  //Outside click handler
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleLogout = () => {
     logOut()
-      .then((result) => {
-        console.log(result.user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      .then(() => {})
+      .catch((error) => console.log(error.message));
+  };
+
+  const handleLinkClick = () => {
+    setIsOpen(false);
   };
 
   const links = (
     <>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" onClick={handleLinkClick}>Home</NavLink>
       </li>
       <li>
-        <NavLink to="/allContest">All Contest</NavLink>
+        <NavLink to="/allContest" onClick={handleLinkClick}>
+          All Contest
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/about">About</NavLink>
+        <NavLink to="/about" onClick={handleLinkClick}>About</NavLink>
       </li>
       <li>
-        <NavLink to="/contact">Contact</NavLink>
+        <NavLink to="/contact" onClick={handleLinkClick}>
+          Contact
+        </NavLink>
       </li>
-      {user && (
-        <li>
-          <NavLink to="/dashboard">Dashboard</NavLink>
-        </li>
-      )}
     </>
   );
 
   return (
     <div className="navbar bg-secondary text-white shadow-sm">
       <div className="navbar-start">
-        <div className="dropdown z-50 ">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </div>
-
-          <ul
-            tabIndex={-1}
-            className="menu menu-sm dropdown-content bg-base-100 text-primary rounded-box z-1 mt-3 w-52 p-2 shadow"
+        {/* Mobile dropdown */}
+        <div ref={mobileMenuRef} className="relative z-50">
+          <button
+            className="btn btn-ghost lg:hidden"
+            onClick={() => setIsOpen((prev) => !prev)}
           >
-            {links}
-          </ul>
+            ☰
+          </button>
+
+          {isOpen && (
+            <ul className="absolute menu menu-sm bg-base-100 text-primary rounded-box mt-3 w-52 p-2 shadow">
+              {links}
+            </ul>
+          )}
         </div>
 
         {/* Logo */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 ml-2">
           <img
-            className="w-[25px] h-[25px] md:w-[30px] md:h-[30px] ml-1 rounded-full"
+            className="w-[25px] h-[25px] md:w-[30px] md:h-[30px] rounded-full"
             src={logoImg}
             alt="Logo"
           />
-          <h3 className="font-semibold md:font-semibold lg:font-bold text-xl">
-            Contest Hub
-          </h3>
+          <h3 className="font-bold text-xl">Contest Hub</h3>
         </div>
       </div>
 
+      {/* Desktop menu */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
 
-      <div className="navbar-end">
-        {user && (
-          <div className="flex items-center gap-3">
-            <h3>{user.displayName}</h3>
-            {/* User Image */}
-            <div className="w-10 mr-2 h-10 rounded-full overflow-hidden border">
-              <img
-                src={
-                  user.photoURL || "https://i.ibb.co/Y0WHx8Y/default-avatar.png"
-                }
-                alt="Profile"
-                className="w-full  h-full object-cover"
-              />
-            </div>
-          </div>
-        )}
-
+      {/* Right side */}
+      <div className="navbar-end flex items-center gap-2">
         {user ? (
-          <a onClick={handleLogout} className="btn">
-            Logout
-          </a>
+          <div ref={profileRef} className="relative">
+            <img
+              className="w-12 h-12 rounded-full bg-white cursor-pointer"
+              src={user.photoURL}
+              alt="avatar"
+              onClick={() => setIsProfileOpen((prev) => !prev)}
+            />
+
+            {isProfileOpen && (
+              <ul className="absolute z-50 right-0 mt-2 menu bg-base-100 rounded-box w-52 p-2 shadow">
+                <li>
+                  <span className="text-primary text-xl">
+                    {user.displayName || "Guest"}
+                  </span>
+                </li>
+                <li>
+                  <NavLink
+                    className="text-primary text-xl"
+                    to="/dashboard"
+                    onClick={() => setIsProfileOpen(false)}
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsProfileOpen(false);
+                    }}
+                    className="text-green-500 text-xl"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
         ) : (
-          <Link to="/login" className="btn btn-primary text-white m-2">
-            Login
+          <Link to="/login/">
+            <button className="btn btn-primary bg-primary px-2 md:px-5">
+              Login
+            </button>
           </Link>
         )}
+
         <ThemeToggle />
       </div>
     </div>

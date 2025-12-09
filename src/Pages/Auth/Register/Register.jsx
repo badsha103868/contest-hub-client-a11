@@ -61,6 +61,9 @@ const Register = () => {
         console.log('profile updated done')
         navigate(location?.state || "/");
       })
+       .catch((error) => {
+        setFirebaseError(error.message);
+      });
     })
       
 
@@ -69,6 +72,7 @@ const Register = () => {
        })
         .catch((error) => {
         console.log(error.message);
+        setFirebaseError(error.message);
       });
   }
 
