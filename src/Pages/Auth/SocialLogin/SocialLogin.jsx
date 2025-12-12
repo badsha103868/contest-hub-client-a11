@@ -1,28 +1,45 @@
 import React from "react";
 import useAuth from "../../../Hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const SocialLogin = () => {
-  
-  const { googleSignIn } = useAuth()
+  const { googleSignIn } = useAuth();
 
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
+  //   axiosSecure
+  const axiosSecure = useAxiosSecure();
 
-  const handleGoogleSignIn=()=>{
+  const handleGoogleSignIn = () => {
     googleSignIn()
-    .then(result =>{
-      const user  = result.user
-      console.log(user)
-       
-        navigate(location?.state || '/')
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
 
+        const userInfo = {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        };
 
-    })
-    .catch(error =>{
-      console.log(error.message)
-    })
-  }
+        axiosSecure.post("/users", userInfo).then((res) => {
+          console.log("user data hasbeen stores", res.data);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Login Successful",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate(location?.state || "/");
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <div className="text-center pb-8 ">

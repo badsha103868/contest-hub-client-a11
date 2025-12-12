@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../Hooks/useAuth';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const Register = () => {
    const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +27,8 @@ const Register = () => {
 
    //  useAuth authInfo data load
   const { registerUser, updateUserProfile } = useAuth();
-  
+  //   axiosSecure
+  const axiosSecure = useAxiosSecure()
   // handleRegistration
   const handleRegistration = ( data ) =>{
     console.log('after register' ,data)
@@ -36,6 +39,7 @@ const Register = () => {
        .then(result =>{
         const user = result.user
         console.log(user)
+
     //  image store and photo url pete
     const formData = new FormData();
     formData.append('image', profileImg)
@@ -48,6 +52,21 @@ const Register = () => {
     .then(res=>{
       console.log('after photo upload ', res.data.data.url)
       const photoURL= res.data.data.url;
+     
+      // user create in data base 
+      const userInfo = {
+        email : data.email,
+        displayName: data.name,
+        photoURL: photoURL
+      }
+      axiosSecure.post('/users', userInfo)
+      .then((res)=>{
+
+          if (res.data.insertedId) {
+              console.log("user created in the database");
+
+            }
+      })
 
        // update user profile
         const updateProfile={
@@ -58,7 +77,14 @@ const Register = () => {
 
       updateUserProfile(updateProfile)
       .then(()=>{
-        console.log('profile updated done')
+        // console.log('profile updated done')
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Registration Successful",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         navigate(location?.state || "/");
       })
        .catch((error) => {
@@ -134,7 +160,7 @@ const Register = () => {
               {...register("password", {
                 required: true,
                 minLength: 6,
-                // pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+                pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
               })}
               className="input w-full"
               placeholder="Password"

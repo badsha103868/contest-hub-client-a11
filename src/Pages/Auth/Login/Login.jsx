@@ -4,6 +4,7 @@ import SocialLogin from '../SocialLogin/SocialLogin';
 import useAuth from '../../../Hooks/useAuth';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   //  react hook form destructuring
@@ -26,6 +27,13 @@ const Login = () => {
     .then((result)=>{
       const user = result.user
       console.log(user)
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Login Successful",
+            showConfirmButton: false,
+            timer: 1500,
+          });
       navigate(location?.state || '/')
     })
       .catch((error) => {

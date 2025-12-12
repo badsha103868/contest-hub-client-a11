@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router";
 import ThemeToggle from "../../ThemeToggle/ThemeToggle";
 import logoImg from "../../../assets/logo.png";
 import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -34,7 +35,15 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logOut()
-      .then(() => {})
+      .then(() => {
+           Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Log Out Successful",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      })
       .catch((error) => console.log(error.message));
   };
 
