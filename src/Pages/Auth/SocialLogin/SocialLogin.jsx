@@ -8,6 +8,7 @@ const SocialLogin = () => {
   const { googleSignIn } = useAuth();
 
   const location = useLocation();
+  console.log(location)
   const navigate = useNavigate();
   //   axiosSecure
   const axiosSecure = useAxiosSecure();
@@ -25,7 +26,7 @@ const SocialLogin = () => {
         };
 
         axiosSecure.post("/users", userInfo).then((res) => {
-          console.log("user data hasbeen stores", res.data);
+          console.log("user data has been stores", res.data);
           Swal.fire({
             position: "top-end",
             icon: "success",

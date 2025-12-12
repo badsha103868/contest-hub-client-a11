@@ -121,8 +121,7 @@ const Register = () => {
             className="input w-full"
             placeholder="Your name"
           />
-
-          {errors.name?.type === "required" && (
+        {errors.name?.type === "required" && (
             <p className="text-red-500">Name is required</p>
           )}
 
