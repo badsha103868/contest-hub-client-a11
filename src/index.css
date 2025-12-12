@@ -28,7 +28,7 @@ body {
 }
 .menu a.active {
   text-decoration: underline;
-  color: yellow;
+  color: Green;
 }
 .menu a {
   margin: 5px;

@@ -39,10 +39,7 @@ export const router = createBrowserRouter([
         path: "/contact",
         Component: Contact,
       },
-      {
-        path: "/dashboard",
-        Component: DashboardLayout,
-      },
+     
     ],
   },
   {
