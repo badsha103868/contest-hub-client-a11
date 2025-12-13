@@ -6,10 +6,14 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const AddContest = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  // navigate
+  const navigate = useNavigate();
+
   const [deadline, setDeadline] = useState(null);
   // hook form
   const {
@@ -20,7 +24,7 @@ const AddContest = () => {
   } = useForm();
 
   // handle add contest form
-   const handleAddContest = (data) => {
+  const handleAddContest = (data) => {
     console.log("after add contest", data);
 
     if (!deadline) {
@@ -61,6 +65,7 @@ const AddContest = () => {
           .post("/contests", contestData)
           .then((res) => {
             if (res.data.insertedId) {
+              navigate("/dashboard/my-created-contests");
               Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -79,7 +84,6 @@ const AddContest = () => {
       .catch((error) => {
         console.log(error.message);
       });
-
   };
 
   return (

@@ -19,6 +19,7 @@ import ManageContests from "../Dashboard/Admin/ManageContests";
 import ManageUsers from "../Dashboard/Admin/ManageUsers";
 import PrivateRoute from "./PrivateRoute";
 import ContestDetails from "../Pages/ContestDetails/ContestDetails";
+import EditContest from "../Dashboard/Creator/EditContest";
 
 export const router = createBrowserRouter([
   {
@@ -34,10 +35,12 @@ export const router = createBrowserRouter([
         Component: AllContests,
       },
       {
-         path: '/contestDetails/:id',
-         element: <PrivateRoute>
-          <ContestDetails></ContestDetails>
-         </PrivateRoute>
+        path: "/contestDetails/:id",
+        element: (
+          <PrivateRoute>
+            <ContestDetails></ContestDetails>
+          </PrivateRoute>
+        ),
       },
 
       {
@@ -48,7 +51,6 @@ export const router = createBrowserRouter([
         path: "/contact",
         Component: Contact,
       },
-     
     ],
   },
   {
@@ -68,46 +70,49 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     Component: DashboardLayout,
-    children:[
-
+    children: [
       // creators only routes
       {
-        path:'add-contest',
-        Component: AddContest
+        path: "add-contest",
+        Component: AddContest,
       },
       {
-        path:'my-created-contest',
-        Component: MyCreatedContests
+        path: "my-created-contests",
+        Component: MyCreatedContests,
       },
       {
-        path:'submissions',
-        Component: Submissions
+        path: "submissions/:id",
+        Component: Submissions,
+      },
+      {
+        path: "edit-contest/:id",
+        Component: EditContest,
       },
 
       //  users routes only
       {
-        path:'my-participated-contest',
-        Component:MyParticipatedContests
+        path: "my-participated-contest",
+        Component: MyParticipatedContests,
       },
       {
-        path:'my-winning-contest',
-        Component:MyWinningContests
+        path: "my-winning-contest",
+        Component: MyWinningContests,
       },
       {
-        path:'my-profile',
-        Component:MyProfile
+        path: "my-profile",
+        Component: MyProfile,
       },
 
-      //  admin route 
+      //  admin route
       {
-        path:'manage-contest',
-        Component:ManageContests
+        path: "manage-contest",
+        Component: ManageContests,
       },
       {
-        path:'manage-users',
-        Component:ManageUsers
+        path: "manage-users",
+        Component: ManageUsers,
       },
-    ]
+    ],
   },
   {
     path: "/*",

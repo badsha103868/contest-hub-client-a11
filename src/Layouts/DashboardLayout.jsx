@@ -131,7 +131,7 @@ const DashboardLayout = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="my-created-contest"
+                    to="my-created-contests"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Created Contests"
                   >
