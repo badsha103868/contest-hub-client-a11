@@ -8,23 +8,22 @@ const axiosSecure = axios.create({
 });
 
 const useAxiosSecure = () => {
-
-  const { user , logout}= useAuth()
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
-  
-  useEffect(()=>{
-     // interceptors request
-     const reqInterceptor = axiosSecure.interceptors.request.use((config)=>{
-         
-      config.headers.Authorization= `Bearer ${user.accessToken}`
+
+  useEffect(() => {
+    // interceptors request
+    const reqInterceptor = axiosSecure.interceptors.request.use((config) => {
+      config.headers.Authorization = `Bearer ${user.accessToken}`;
 
       return config;
-    })
+    });
 
     // interceptors response
-    const resInterceptor = axiosSecure.interceptors.response.use((response)=>{
-      return response;
-    },
+    const resInterceptor = axiosSecure.interceptors.response.use(
+      (response) => {
+        return response;
+      },
       (error) => {
         console.log(error);
 
@@ -37,13 +36,13 @@ const useAxiosSecure = () => {
         }
 
         return Promise.reject(error);
-      })
-       return () => {
+      }
+    );
+    return () => {
       axiosSecure.interceptors.request.eject(reqInterceptor);
       axiosSecure.interceptors.response.eject(resInterceptor);
     };
-
-  },[user, logout, navigate]);
+  }, [user, logout, navigate]);
 
   return axiosSecure;
 };

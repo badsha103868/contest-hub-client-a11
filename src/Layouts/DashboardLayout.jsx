@@ -1,9 +1,18 @@
 import React from "react";
-import { FaFolderOpen, FaPaperPlane, FaPlusCircle, FaTasks, FaUsers } from "react-icons/fa";
+import {
+  FaFolderOpen,
+  FaPaperPlane,
+  FaPlusCircle,
+  FaTasks,
+  FaUsers,
+} from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
 import logoImg from "../assets/logo.png";
+import useRole from "../Hooks/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
+  console.log("in the dashboard layout", role);
   return (
     <div className="drawer lg:drawer-open max-w-7xl mx-auto">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -80,60 +89,70 @@ const DashboardLayout = () => {
               </Link>
             </li>
             {/* admin dashboard link */}
-            <li>
-              <NavLink
-                to="manage-users"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Manage Users"
-              >
-                <FaUsers></FaUsers>
-                <span className="is-drawer-close:hidden">Manage-Users</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="manage-contest"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Manage Contest"
-              >
-                <FaTasks></FaTasks>
-                <span className="is-drawer-close:hidden">Manage-Contest</span>
-              </NavLink>
-            </li>
+            {role === "admin" && (
+              <>
+                <li>
+                  <NavLink
+                    to="manage-users"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Users"
+                  >
+                    <FaUsers></FaUsers>
+                    <span className="is-drawer-close:hidden">Manage-Users</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="manage-contest"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Contest"
+                  >
+                    <FaTasks></FaTasks>
+                    <span className="is-drawer-close:hidden">
+                      Manage-Contest
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
             {/* creator dashboard link */}
-            <li>
-              <NavLink
-                to="add-contest"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Add Contest"
-              >
-                <FaPlusCircle></FaPlusCircle>
-                <span className="is-drawer-close:hidden">Add Contest</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="my-created-contest"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="My Created Contests"
-              >
-                <FaFolderOpen></FaFolderOpen>
-                <span className="is-drawer-close:hidden">
-                  My Created Contests
-                </span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="submissions"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Submissions"
-              >
-                <FaPaperPlane></FaPaperPlane>
-                <span className="is-drawer-close:hidden">Submissions</span>
-              </NavLink>
-            </li>
+            {role === "creator" && (
+              <>
+                <li>
+                  <NavLink
+                    to="add-contest"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Add Contest"
+                  >
+                    <FaPlusCircle></FaPlusCircle>
+                    <span className="is-drawer-close:hidden">Add Contest</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="my-created-contest"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Created Contests"
+                  >
+                    <FaFolderOpen></FaFolderOpen>
+                    <span className="is-drawer-close:hidden">
+                      My Created Contests
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="submissions"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Submissions"
+                  >
+                    <FaPaperPlane></FaPaperPlane>
+                    <span className="is-drawer-close:hidden">Submissions</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
             {/* List item */}
             <li>
