@@ -1,8 +1,10 @@
 import React from "react";
 import useAuth from "../../../Hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+
+
 import Swal from "sweetalert2";
+import useAxios from "../../../Hooks/useAxios";
 
 const SocialLogin = () => {
   const { googleSignIn } = useAuth();
@@ -11,7 +13,8 @@ const SocialLogin = () => {
   console.log(location)
   const navigate = useNavigate();
   //   axiosSecure
-  const axiosSecure = useAxiosSecure();
+  // const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios()
 
   const handleGoogleSignIn = () => {
     googleSignIn()
@@ -25,7 +28,7 @@ const SocialLogin = () => {
           photoURL: user.photoURL,
         };
 
-        axiosSecure.post("/users", userInfo).then((res) => {
+        axiosInstance.post("/users", userInfo).then((res) => {
           console.log("user data has been stores", res.data);
           Swal.fire({
             position: "top-end",
