@@ -49,6 +49,7 @@ const Register = () => {
 
     // url paour jonno axios ar maddome post
     axios.post(image_API_URL, formData)
+    
     .then(res=>{
       console.log('after photo upload ', res.data.data.url)
       const photoURL= res.data.data.url;
