@@ -1,78 +1,81 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link, } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { Link } from "react-router";
 
 
 const PopularContests = () => {
   const axiosSecure = useAxiosSecure();
+  // const { user } = useAuth();
+  // const navigate = useNavigate();
 
-const { data: popularContests = [] } = useQuery({
-  queryKey: ["popular-contests"],
-  queryFn: async () => {
-    const res = await axiosSecure.get(
-      "/contests?status=approved&sort=popular"
-    );
-    return res.data;
-  },
-});
-
-
-  
+  const { data: popularContests = [] } = useQuery({
+    queryKey: ["popular-contests"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        "/contests?status=approved&sort=popular"
+      );
+      return res.data;
+    },
+  });
 
   return (
-    <div className="my-16 px-4 max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-10">
-        Popular Contests
+    <section className="my-20 px-4 max-w-7xl mx-auto">
+      <h2 className="text-4xl font-bold text-center mb-12">
+        🔥 Popular Contests
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {popularContests.map((contest) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {popularContests.slice(0, 6).map((contest) => (
           <div
             key={contest._id}
-            className="card bg-base-100 shadow-xl"
+            className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 border border-base-300"
           >
-            <figure>
+            <figure >
               <img
                 src={contest.contest_image}
                 alt={contest.name}
-                className="h-48 w-full object-cover"
+                className="h-52 w-full object-cover"
               />
+           
             </figure>
 
             <div className="card-body">
-              <h3 className="card-title">{contest.name}</h3>
+              <h3 className="card-title text-lg">{contest.name}</h3>
 
-              <p className="text-sm text-gray-500">
-                Deadline:{" "}
-                {new Date(contest.deadline).toLocaleDateString()}
+              <p className="text-sm text-base-content/70">
+                {contest.description?.slice(0, 80)}...
               </p>
+               
 
-              <p className="font-semibold">
-                Prize: ৳ {contest.prize_money}
-              </p>
+              <div className="flex justify-between items-center mt-3">
 
-              <p className="text-sm">
-                Participants: {contest.participants}
-              </p>
+                <span className="badge badge-secondary font-semibold">
+              Total Participants:  👥 {contest.participants}
+              </span>
 
-              <div className="card-actions justify-end">
-                <Link to={`/contest/${contest._id}`}>
-                  <button className="btn btn-secondary btn-sm">
+                <div className="card-actions mt-3">
+                  <Link
+                    to={`/contestDetails/${contest._id}`}
+                    className="btn btn-primary w-full"
+                  >
                     View Details
-                  </button>
-                </Link>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         ))}
-
-        {popularContests.length === 0 && (
-          <p className="text-center col-span-full">
-            No popular contests available.
-          </p>
-        )}
       </div>
-    </div>
+
+      {/* Show all */}
+      <div className="text-center mt-12">
+        <Link to="/all-contests">
+          <button className="btn btn-wide btn-secondary">
+            Show All Contests
+          </button>
+        </Link>
+      </div>
+    </section>
   );
 };
 
