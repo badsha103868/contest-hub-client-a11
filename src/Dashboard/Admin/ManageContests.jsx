@@ -57,6 +57,32 @@ const ManageContests = () => {
     updateContestStatus(contest, "rejected");
   };
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/contests/${id}`).then((res) => {
+          if (res.data.deletedCount) {
+            refetch();
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Contest request has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
   return (
     <div>
       <h3 className="text-5xl text-primary mb-4">
@@ -114,7 +140,10 @@ const ManageContests = () => {
                     <FaTimesCircle></FaTimesCircle>
                   </button>
 
-                  <button className="p-2 btn text-black">
+                  <button
+                    onClick={() => handleDelete(contest._id)}
+                    className="p-2 btn text-black"
+                  >
                     <FaTrashCan></FaTrashCan>
                   </button>
                 </td>
