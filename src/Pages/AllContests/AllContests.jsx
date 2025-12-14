@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -90,9 +90,7 @@ const AllContests = () => {
                 <span className="badge badge-secondary">
                   👥 {contest.participants} Joined
                 </span>
-                <span className="badge badge-outline">
-                  ৳ {contest.prize_money}
-                </span>
+                
               </div>
 
               <div className="card-actions mt-4">

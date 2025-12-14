@@ -25,7 +25,7 @@ const PopularContests = () => {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {popularContests.slice(0, 6).map((contest) => (
+        {popularContests.map((contest) => (
           <div
             key={contest._id}
             className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 border border-base-300"
@@ -47,20 +47,20 @@ const PopularContests = () => {
               </p>
                
 
-              <div className="flex justify-between items-center mt-3">
+               <div className="flex justify-between items-center mt-3">
+                <span className="badge badge-secondary">
+                  👥 {contest.participants} Joined
+                </span>
+                
+              </div>
 
-                <span className="badge badge-secondary font-semibold">
-              Total Participants:  👥 {contest.participants}
-              </span>
-
-                <div className="card-actions mt-3">
-                  <Link
-                    to={`/contestDetails/${contest._id}`}
-                    className="btn btn-primary w-full"
-                  >
-                    View Details
-                  </Link>
-                </div>
+              <div className="card-actions mt-4">
+                <Link
+                  to={`/contestDetails/${contest._id}`}
+                  className="btn btn-primary btn-sm w-full"
+                >
+                  View Details
+                </Link>
               </div>
             </div>
           </div>
