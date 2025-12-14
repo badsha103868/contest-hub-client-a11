@@ -25,8 +25,11 @@ const EditContest = () => {
   } = useForm();
 
   const handleUpdateContest = (data) => {
+    const updatedContest ={
+      ...data,deadline
+    }
     axiosSecure
-      .patch(`/contests/${contest._id}`, data)
+      .patch(`/contests/${contest._id}`, updatedContest)
       .then((res) => {
         if (res.data.modifiedCount) {
           Swal.fire({
@@ -125,7 +128,7 @@ const EditContest = () => {
             minDate={new Date()}
             dateFormat="dd/MM/yyyy"
             required
-            defaultValue={contest.deadline}
+            
           />
 
           <button

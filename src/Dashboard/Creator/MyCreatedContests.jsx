@@ -70,7 +70,7 @@ const MyCreatedContests = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-5xl text-primary">
         My Created Contests ({contests.length})
       </h2>
       <div className="overflow-x-auto">
@@ -79,6 +79,7 @@ const MyCreatedContests = () => {
             <tr>
               <th>Sl No</th>
               <th>Contest Name</th>
+              <th>Contest Type</th>
               <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -90,6 +91,7 @@ const MyCreatedContests = () => {
               <tr key={contest._id}>
                 <td>{index + 1}</td>
                 <td>{contest.name}</td>
+                <td>{contest.contest_type}</td>
                 <td>
                   <span
                     className={`${

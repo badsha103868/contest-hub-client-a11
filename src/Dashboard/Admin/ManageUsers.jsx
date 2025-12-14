@@ -31,7 +31,8 @@ const ManageUsers = () => {
       confirmButtonText: "Conform and Continue!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.patch(`/users/${user._id}/role`, { role: newRole }).then((res) => {
+        axiosSecure.patch(`/users/${user._id}/role`, { role: newRole })
+        .then((res) => {
           if (res.data.modifiedCount) {
             refetch();
             Swal.fire({

@@ -141,16 +141,7 @@ const DashboardLayout = () => {
                     </span>
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink
-                    to="submissions"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Submissions"
-                  >
-                    <FaPaperPlane></FaPaperPlane>
-                    <span className="is-drawer-close:hidden">Submissions</span>
-                  </NavLink>
-                </li>
+               
               </>
             )}
 

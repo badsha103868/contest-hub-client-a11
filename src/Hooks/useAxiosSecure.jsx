@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
-
+// https://contest-hub-server-a11.vercel.ap
 const axiosSecure = axios.create({
   baseURL: "http://localhost:3000",
 });
@@ -30,8 +30,7 @@ const useAxiosSecure = () => {
         // jodi error status code 401 and 403 hoi tahole logOut
         const statusCode = error.status;
         if (statusCode === 401 || statusCode === 403) {
-          logOut()
-          .then(() => {
+          logOut().then(() => {
             navigate("/login");
           });
         }
