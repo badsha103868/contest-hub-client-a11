@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/allContest",
+        path: "/all-contests",
         Component: AllContests,
       },
       {
