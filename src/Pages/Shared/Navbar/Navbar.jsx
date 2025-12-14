@@ -57,7 +57,7 @@ const Navbar = () => {
         <NavLink to="/" onClick={handleLinkClick}>Home</NavLink>
       </li>
       <li>
-        <NavLink to="/allContest" onClick={handleLinkClick}>
+        <NavLink to="/all-contests" onClick={handleLinkClick}>
           All Contest
         </NavLink>
       </li>
