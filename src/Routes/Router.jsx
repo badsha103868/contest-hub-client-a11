@@ -21,6 +21,9 @@ import PrivateRoute from "./PrivateRoute";
 import ContestDetails from "../Pages/ContestDetails/ContestDetails";
 import EditContest from "../Dashboard/Creator/EditContest";
 import AllContests from "../Pages/AllContests/AllContests";
+import Payment from "../Pages/Payment/Payment";
+import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+import PaymentCancelled from "../Pages/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -113,6 +116,20 @@ export const router = createBrowserRouter([
         path: "manage-users",
         Component: ManageUsers,
       },
+      // payment
+        {
+        path: "payment/:parcelId",
+        Component: Payment,
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-cancelled",
+        Component: PaymentCancelled,
+      },
+     
     ],
   },
   {

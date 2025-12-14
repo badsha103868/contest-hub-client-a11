@@ -1,27 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import useAxiosSecure from '../../Hooks/useAxiosSecure';
-import useAuth from '../../Hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
-import Loading from '../Loading/Loading';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../Loading/Loading";
+import useRole from "../../Hooks/useRole";
+import Swal from "sweetalert2";
 
 const ContestDetails = () => {
-  const { id } = useParams()
+  const { id } = useParams();
   // console.log(id)
-  const axiosSecure = useAxiosSecure()
-  const { user } = useAuth()
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const { role, roleLoading } = useRole();
 
-  const [timeLeft, setTimeLeft]= useState("")
-  const [showModal, setShowModal] = useState(false)
-  const [taskLink, setTaskLink]= useState("")
+  const [timeLeft, setTimeLeft] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [taskLink, setTaskLink] = useState("");
 
-  const { data: contest=[], isLoading} = useQuery({
-    queryKey:['contest', id],
-    queryFn: async ()=>{
-      const res = await axiosSecure.get(`/contests/${id}`)
-      return res.data
-    }
-  })
+  const { data: contest = [], isLoading } = useQuery({
+    queryKey: ["contest", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/contests/${id}`);
+      return res.data;
+    },
+  });
 
   // countdown timer
   useEffect(() => {
@@ -50,13 +53,44 @@ const ContestDetails = () => {
     return () => clearInterval(interval);
   }, [contest]);
 
-  
   if (isLoading) return <Loading></Loading>;
 
   const isContestEnded = new Date(contest.deadline) < new Date();
 
+  if (roleLoading) return null;
+
+  const handleRegisterClick = () => {
+    if (role !== "user") {
+      Swal.fire({
+        icon: "warning",
+        title: "Not Allowed ❌",
+        text: "Only normal users can participate in contests.",
+        confirmButtonColor: "#3085d6",
+      });
+      return;
+    }
+
+    handlePayment(contest);
+  };
+
+  // handlePayment
+  const handlePayment = async (contest) => {
+    const paymentInfo = {
+      price: contest.price,
+      contestId: contest._id,
+      userEmail: user.email,
+      contestName: contest.name,
+    };
+    const res = await axiosSecure.post(
+      "/payment-checkout-session",
+      paymentInfo
+    );
+    // console.log(res.data.url);
+    window.location.assign(res.data.url);
+  };
+
   return (
-     <section className="max-w-4xl mx-auto my-16 px-4">
+    <section className="max-w-4xl mx-auto my-16 px-4">
       {/* Contest Banner */}
       <div className="mb-8">
         <img
@@ -70,13 +104,14 @@ const ContestDetails = () => {
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">{contest.name}</h1>
         <p className="text-lg font-bold text-base-content/70 mb-2">
-          Participants: 👥 {contest.participants}
+          Participants: 👥{" "}
+          <span className="text-warning">{contest.participants}</span>
         </p>
         <p className="text-lg font-bold text-base-content/70 mb-2">
-          Prize: ৳ {contest.prize_money}
+          Prize: <span className="text-primary">৳ {contest.prize_money}</span>
         </p>
         <p className="text-xl font-bold text-base-content/70 mb-2">
-          Deadline: <span className='text-green-700'>{timeLeft}</span>
+          Deadline: <span className="text-green-700">{timeLeft}</span>
         </p>
       </div>
 
@@ -103,8 +138,8 @@ const ContestDetails = () => {
       {/* Actions */}
       <div className="flex flex-col md:flex-row gap-4">
         <button
-          className={`btn btn-primary ${isContestEnded && "btn-disabled"}`}
-          
+          onClick={handleRegisterClick}
+          className="btn btn-primary"
           disabled={isContestEnded}
         >
           Register / Pay
@@ -140,12 +175,7 @@ const ContestDetails = () => {
               >
                 Cancel
               </button>
-              <button
-                className="btn btn-primary"
-               
-              >
-                Submit
-              </button>
+              <button className="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
