@@ -1,38 +1,38 @@
-import React from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
-import { Link } from 'react-router';
+import React, { useEffect } from "react";
+
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import { useNavigate, useSearchParams } from "react-router";
+import useAxios from "../../Hooks/useAxios";
 
 const PaymentSuccess = () => {
-  return (
-     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-xl p-8 text-center ">
-        <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("session_id");
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Payment Successful!
-        </h2>
-        <p className="text-red-400 font-bold">
-          Your TransactionId:
-          <span className="text-blue-600 text-xl">
-            {/* {paymentInfo.transactionId} */}
-          </span>
-        </p>
+  // const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios()
+  const navigate = useNavigate();
 
-        
+  useEffect(() => {
+    if (!sessionId) return;
 
-        <p className="text-gray-600 mb-6">
-          Your payment has been completed successfully. Thank you for your
-          purchase!
-        </p>
+    axiosInstance
+      .post("/payments/confirm", { sessionId })
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Payment Successful 🎉",
+          text: "You are now registered for the contest!",
+        }).then(() => {
+          navigate(`/contestDetails/${res.data.contestId}`);
+        }); 
+      })
+      .catch((err) => {
+        console.error("Payment confirm error:", err);
+      });
+  }, [sessionId, axiosInstance, navigate]);
 
-        <Link to="/dashboard/my-participated-contest">
-          <button className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition">
-            Go My Parcel
-          </button>
-        </Link>
-      </div>
-    </div>
-  );
+  return <p className="text-center mt-20">Processing payment...</p>;
 };
 
 export default PaymentSuccess;

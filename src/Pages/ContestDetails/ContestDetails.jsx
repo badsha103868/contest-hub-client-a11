@@ -59,6 +59,9 @@ const ContestDetails = () => {
 
   if (roleLoading) return null;
 
+  // registerd user asa kina check
+  const isRegistered = contest.registeredUsers?.includes(user.email);
+
   const handleRegisterClick = () => {
     if (role !== "user") {
       Swal.fire({
@@ -138,19 +141,17 @@ const ContestDetails = () => {
       {/* Actions */}
       <div className="flex flex-col md:flex-row gap-4">
         <button
+          disabled={isRegistered || isContestEnded}
           onClick={handleRegisterClick}
           className="btn btn-primary"
-          disabled={isContestEnded}
         >
-          Register / Pay
+          {isRegistered ? "Already Registered" : "Register / Pay"}
         </button>
 
         <button
-          className={`btn btn-secondary ${
-            (!user || isContestEnded) && "btn-disabled"
-          }`}
+          className="btn btn-secondary"
+          disabled={!isRegistered || isContestEnded}
           onClick={() => setShowModal(true)}
-          disabled={isContestEnded}
         >
           Submit Task
         </button>
