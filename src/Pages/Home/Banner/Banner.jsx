@@ -36,7 +36,7 @@ const Banner = () => {
             <input
               type="text"
               placeholder="Search by contest type..."
-              className="input input-bordered w-full text-primary"
+              className="input input-bordered w-full text-primary font-bold"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
