@@ -85,7 +85,7 @@ const AddContest = () => {
         console.log(error.message);
       });
   };
-
+  
   return (
     <div className="flex justify-center items-center  min-h-screen my-5">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl ">

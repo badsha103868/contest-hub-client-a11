@@ -10,16 +10,15 @@ const Submissions = () => {
   const axiosSecure = useAxiosSecure();
 
   const { data = {}, isLoading } = useQuery({
-  queryKey: ["contest-submissions", id],
-  queryFn: async () => {
-    const res = await axiosSecure.get(`/contests/${id}/submissions`);
-    return res.data;
-  },
-});
+    queryKey: ["contest-submissions", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/contests/${id}/submissions`);
+      return res.data;
+    },
+  });
 
-const submissions = data.submissions || [];
-const winner = data.winner;
-
+  const submissions = data.submissions || [];
+  const winner = data.winner;
 
   //  handle declare winner
   const handleDeclareWinner = (sub) => {
@@ -48,8 +47,6 @@ const winner = data.winner;
           });
       }
     });
-
-  
   };
   if (isLoading) return <Loading></Loading>;
   return (
@@ -74,11 +71,15 @@ const winner = data.winner;
             </p>
 
             <button
-              disabled={winner}
+              disabled={winner || new Date() < new Date(data.deadline)}
               className="btn btn-primary btn-sm mt-4"
               onClick={() => handleDeclareWinner(sub)}
             >
-              {winner ? "Winner Declared" : "Declare Winner"}
+              {winner
+                ? "Winner Declared"
+                : new Date() < new Date(data.deadline)
+                ? "Declare After Deadline"
+                : "Declare Winner"}
             </button>
           </div>
         ))}

@@ -25,6 +25,8 @@ import Payment from "../Pages/Payment/Payment";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCancelled from "../Pages/Payment/PaymentCancelled";
 import Leaderboard from "../Pages/Leaderboard/LeaderboardPage";
+import AdminRoute from "./AdminRoute";
+import CreatorRoute from "./CreatorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -78,24 +80,36 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    Component: DashboardLayout,
+     element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       // creators only routes
       {
         path: "add-contest",
-        Component: AddContest,
+        element:<CreatorRoute>
+          <AddContest></AddContest>
+        </CreatorRoute>
       },
       {
         path: "my-created-contests",
-        Component: MyCreatedContests,
+        element:<CreatorRoute>
+          <MyCreatedContests></MyCreatedContests>
+        </CreatorRoute>
       },
       {
         path: "submissions/:id",
-        Component: Submissions,
+        element:<CreatorRoute>
+          <Submissions></Submissions>
+        </CreatorRoute>
       },
       {
         path: "edit-contest/:id",
-        Component: EditContest,
+       element:<CreatorRoute>
+        <EditContest></EditContest>
+       </CreatorRoute>
       },
 
       //  users routes only
@@ -115,11 +129,15 @@ export const router = createBrowserRouter([
       //  admin route
       {
         path: "manage-contest",
-        Component: ManageContests,
+        element:<AdminRoute>
+          <ManageContests></ManageContests>
+        </AdminRoute>
       },
       {
         path: "manage-users",
-        Component: ManageUsers,
+        element:<AdminRoute>
+          <ManageUsers></ManageUsers>
+        </AdminRoute>
       },
       // payment
         {

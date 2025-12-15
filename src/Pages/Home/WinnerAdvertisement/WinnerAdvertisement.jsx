@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Loading from "../../Loading/Loading";
 
 const WinnerAdvertisement = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: contests = [] } = useQuery({
+  const { data: contests = [], isLoading} = useQuery({
     queryKey: ["winner-contests"],
     queryFn: async () => {
       const res = await axiosSecure.get("/contests?status=approved");
@@ -27,7 +28,7 @@ const WinnerAdvertisement = () => {
     };
     slideLoop();
   }, [controls]);
-   
+    if (isLoading) return <Loading />;
   return (
     <section className="bg-gradient-to-r from-indigo-600 to-purple-600 py-16 text-white">
       <div className="max-w-7xl mx-auto px-4">

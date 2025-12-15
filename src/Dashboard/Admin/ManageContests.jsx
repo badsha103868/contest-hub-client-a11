@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 const ManageContests = () => {
   const axiosSecure = useAxiosSecure();
-  const { refetch, data: contests = [] } = useQuery({
+  const { refetch, data: contests = [],  } = useQuery({
     queryKey: ["contests"],
     queryFn: async () => {
       const res = await axiosSecure.get("/contests");

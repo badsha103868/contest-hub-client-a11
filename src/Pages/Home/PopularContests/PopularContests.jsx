@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Loading from "../../Loading/Loading";
 
 
 const PopularContests = () => {
@@ -8,7 +9,7 @@ const PopularContests = () => {
   // const { user } = useAuth();
   // const navigate = useNavigate();
 
-  const { data: popularContests = [] } = useQuery({
+  const { data: popularContests = [], isLoading } = useQuery({
     queryKey: ["popular-contests"],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -17,7 +18,7 @@ const PopularContests = () => {
       return res.data;
     },
   });
-
+    if (isLoading) return <Loading />;
   return (
     <section className="my-20 px-4 max-w-7xl mx-auto">
       <h2 className="text-4xl font-bold text-center mb-12">
