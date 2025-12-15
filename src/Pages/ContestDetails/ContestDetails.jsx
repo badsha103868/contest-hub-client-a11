@@ -106,6 +106,7 @@ const ContestDetails = () => {
     const submissionData = {
       name: user.displayName,
       email: user.email,
+      photo: user.photoURL,
       taskInfo: taskLink,
     };
     axiosSecure
