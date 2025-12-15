@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../Loading/Loading";
 
 const AllContests = () => {
+  const [searchParams] = useSearchParams();
+  const typeFromQuery = searchParams.get("type");
   const axiosSecure = useAxiosSecure();
-  const [activeType, setActiveType] = useState("all");
+  const [activeType, setActiveType] = useState(typeFromQuery || "all");
+
+  // useEffect ar maddome handle banner search
+  useEffect(() => {
+    if (typeFromQuery) {
+      setActiveType(typeFromQuery);
+    }
+  }, [typeFromQuery]);
 
   // 🔹 load contest types for tabs
   const { data: contestTypes = [] } = useQuery({
@@ -36,9 +45,7 @@ const AllContests = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 my-16">
-      <h2 className="text-4xl font-bold text-center mb-10">
-        🎯 All Contests
-      </h2>
+      <h2 className="text-4xl font-bold text-center mb-10">🎯 All Contests</h2>
 
       {/*  Tabs */}
       <div className="flex flex-wrap justify-center gap-3 mb-10">
@@ -90,7 +97,6 @@ const AllContests = () => {
                 <span className="badge badge-secondary">
                   👥 {contest.participants} Joined
                 </span>
-                
               </div>
 
               <div className="card-actions mt-4">

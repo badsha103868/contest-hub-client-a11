@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
 import Swal from "sweetalert2";
 import { useNavigate, useSearchParams } from "react-router";
 import useAxios from "../../Hooks/useAxios";
