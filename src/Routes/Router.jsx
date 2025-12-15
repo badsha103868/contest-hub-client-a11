@@ -24,6 +24,7 @@ import AllContests from "../Pages/AllContests/AllContests";
 import Payment from "../Pages/Payment/Payment";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCancelled from "../Pages/Payment/PaymentCancelled";
+import Leaderboard from "../Pages/Leaderboard/LeaderboardPage";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
         path: "/contact",
         Component: Contact,
       },
+      {
+        path:'/leaderboard',
+        Component:Leaderboard
+      }
     ],
   },
   {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
@@ -14,6 +14,17 @@ const ManageContests = () => {
       return res.data;
     },
   });
+   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(contests.length / itemsPerPage);
+
+  // current page items
+  const currentContests = contests.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
 
   // update status
   const updateContestStatus = (contest, newStatus) => {
@@ -104,9 +115,9 @@ const ManageContests = () => {
             </tr>
           </thead>
           <tbody>
-            {contests.map((contest, index) => (
+            {currentContests.map((contest, index) => (
               <tr key={contest._id}>
-                <th>{index + 1}</th>
+               <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
                 <td>{contest.name}</td>
                 <td>{contest.creator_email}</td>
                 <td>{contest.contest_type}</td>
@@ -152,6 +163,39 @@ const ManageContests = () => {
           </tbody>
         </table>
       </div>
+      
+       {/* Pagination Buttons */}
+      <div className="flex justify-center mt-4 space-x-2">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="btn btn-sm"
+        >
+          Previous
+        </button>
+
+        {[...Array(totalPages)].map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentPage(idx + 1)}
+            className={`btn btn-sm ${
+              currentPage === idx + 1 ? "btn-primary text-white" : ""
+            }`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="btn btn-sm"
+        >
+          Next
+        </button>
+      </div>
+
+
     </div>
   );
 };

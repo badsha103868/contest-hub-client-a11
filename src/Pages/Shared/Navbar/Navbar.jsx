@@ -69,6 +69,10 @@ const Navbar = () => {
           Contact
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/leaderboard" onClick={handleLinkClick}>Leaderboard</NavLink>
+
+      </li>
     </>
   );
 
