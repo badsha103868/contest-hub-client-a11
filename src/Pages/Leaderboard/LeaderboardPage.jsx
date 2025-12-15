@@ -7,7 +7,7 @@ import useAxios from "../../Hooks/useAxios";
 
 const Leaderboard = () => {
   const axiosInstance = useAxios()
-  const { data: users = [], isLoading } = useQuery({
+  const { data: users = []} = useQuery({
     queryKey: ["leaderboard"],
     queryFn: async () => {
       const res = await axiosInstance.get("/leaderboard");
@@ -15,7 +15,7 @@ const Leaderboard = () => {
     },
   });
 
-  if (isLoading) return <Loading />;
+  
 
   return (
     <section className="max-w-6xl mx-auto my-10 px-4">

@@ -25,36 +25,32 @@ const AuthProvider = ({ children }) => {
 
   // register
  const registerUser = (email, password)=>{
-      setLoading(true)
+     setLoading
     return createUserWithEmailAndPassword(auth, email, password)
   } 
 
   //  login
     const signInUser = (email, password)=>{
-      setLoading(true)
+     setLoading
     return signInWithEmailAndPassword(auth, email, password)
   }
   // log out
   const logOut = () => {
-     setLoading(true)
     return signOut(auth);
   };
 
   // update profile
     const updateUserProfile = (profile)=>{
-       setLoading(true)
     return updateProfile(auth.currentUser, profile)
   }
 
   // forget password
   const forgetPassword = (email) => {
-     setLoading(true)
     return sendPasswordResetEmail(auth, email);
   };
 
   // google sign in
   const googleSignIn = () => {
-     setLoading(true)
     return signInWithPopup(auth, googleProvider);
   };
 

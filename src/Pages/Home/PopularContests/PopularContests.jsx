@@ -18,7 +18,7 @@ const PopularContests = () => {
       return res.data;
     },
   });
-    if (isLoading) return <Loading />;
+  if(isLoading) return <Loading></Loading>
   return (
     <section className="my-20 px-4 max-w-7xl mx-auto">
       <h2 className="text-4xl font-bold text-center mb-12">

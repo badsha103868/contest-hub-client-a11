@@ -1,18 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import Loading from "../../Pages/Loading/Loading";
 
 const MyWinningContests = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: contests = [],isLoading } = useQuery({
+  const { data: contests = [] } = useQuery({
     queryKey: ["my-winning-contests"],
     queryFn: async () => {
       const res = await axiosSecure.get("/my-winning-contests");
       return res.data;
     },
   });
- if (isLoading) return <Loading />;
+
   return (
     <section>
       <h2 className="text-2xl font-bold mb-6">🏆 My Winning Contests</h2>
