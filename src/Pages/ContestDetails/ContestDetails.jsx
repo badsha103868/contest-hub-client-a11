@@ -92,6 +92,38 @@ const ContestDetails = () => {
     window.location.assign(res.data.url);
   };
 
+  // handle submit modal
+  const handleSubmit = (contest) => {
+    if (!taskLink.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Empty Field",
+        text: "Please provide your task info before submitting",
+      });
+      return;
+    }
+
+    const submissionData = {
+      name: user.displayName,
+      email: user.email,
+      taskInfo: taskLink,
+    };
+    axiosSecure
+      .post(`/contests/${contest._id}/submit-task`, submissionData)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Task Submitted!",
+          text: "Your task has been submitted successfully",
+        });
+        setTaskLink("")
+        setShowModal(false)
+
+      })
+      .catch(error=>{
+        console.log(error.message)
+      });
+  };
   return (
     <section className="max-w-4xl mx-auto my-16 px-4">
       {/* Contest Banner */}
@@ -176,7 +208,12 @@ const ContestDetails = () => {
               >
                 Cancel
               </button>
-              <button className="btn btn-primary">Submit</button>
+              <button
+                onClick={() => handleSubmit(contest)}
+                className="btn btn-primary"
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
