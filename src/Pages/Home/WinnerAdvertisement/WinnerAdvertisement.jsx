@@ -3,14 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxios from "../../../Hooks/useAxios";
 
 const WinnerAdvertisement = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios()
 
   const { data: contests = [], } = useQuery({
     queryKey: ["winner-contests"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/contests?status=approved");
+      const res = await axiosInstance.get("/contests?status=approved");
       return res.data;
     },
   });

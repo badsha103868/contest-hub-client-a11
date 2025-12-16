@@ -96,14 +96,14 @@ const Navbar = () => {
         </div>
 
         {/* Logo */}
-        <div className="flex items-center gap-1 ml-2">
+        <Link to='/' className="flex items-center gap-1 ml-2">
           <img
             className="w-[25px] h-[25px] md:w-[30px] md:h-[30px] rounded-full"
             src={logoImg}
             alt="Logo"
           />
           <h3 className="font-bold text-xl">Contest Hub</h3>
-        </div>
+        </Link>
       </div>
 
       {/* Desktop menu */}

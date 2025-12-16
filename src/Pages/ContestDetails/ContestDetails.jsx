@@ -62,6 +62,11 @@ const ContestDetails = () => {
   // registerd user asa kina check
   const isRegistered = contest.registeredUsers?.includes(user.email);
 
+  // winner declared check
+  const isWinnerDeclared = !!contest.winner;
+  // registration closed
+  const isRegistrationClosed = isContestEnded || isWinnerDeclared;
+
   const handleRegisterClick = () => {
     if (role !== "user") {
       Swal.fire({
@@ -117,12 +122,11 @@ const ContestDetails = () => {
           title: "Task Submitted!",
           text: "Your task has been submitted successfully",
         });
-        setTaskLink("")
-        setShowModal(false)
-
+        setTaskLink("");
+        setShowModal(false);
       })
-      .catch(error=>{
-        console.log(error.message)
+      .catch((error) => {
+        console.log(error.message);
       });
   };
   return (
@@ -174,16 +178,20 @@ const ContestDetails = () => {
       {/* Actions */}
       <div className="flex flex-col md:flex-row gap-4">
         <button
-          disabled={isRegistered || isContestEnded}
+          disabled={isRegistered || isRegistrationClosed}
           onClick={handleRegisterClick}
           className="btn btn-primary"
         >
-          {isRegistered ? "Already Registered" : "Register / Pay"}
+          {isWinnerDeclared
+            ? "Registration Closed"
+            : isRegistered
+            ? "Already Registered"
+            : "Register / Pay"}
         </button>
 
         <button
           className="btn btn-secondary"
-          disabled={!isRegistered || isContestEnded}
+          disabled={!isRegistered || isContestEnded || isWinnerDeclared}
           onClick={() => setShowModal(true)}
         >
           Submit Task
