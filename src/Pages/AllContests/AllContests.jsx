@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
 import Loading from "../Loading/Loading";
+import useAxios from "../../Hooks/useAxios";
 
 const AllContests = () => {
   const [searchParams] = useSearchParams();
   const typeFromQuery = searchParams.get("type");
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios()
   const [activeType, setActiveType] = useState(typeFromQuery || "all");
 
   // useEffect ar maddome handle banner search
@@ -21,7 +22,7 @@ const AllContests = () => {
   const { data: contestTypes = [] } = useQuery({
     queryKey: ["contest-types"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/contests/contest_type");
+      const res = await axiosInstance.get("/contests/contest_type");
       return res.data;
     },
   });
@@ -34,7 +35,7 @@ const AllContests = () => {
         activeType === "all"
           ? "/contests?status=approved"
           : `/contests?status=approved&type=${encodeURIComponent(activeType)}`;
-      const res = await axiosSecure.get(url);
+      const res = await axiosInstance.get(url);
       return res.data;
     },
   });

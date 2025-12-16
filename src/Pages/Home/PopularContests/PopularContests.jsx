@@ -1,18 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, } from "react-router";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+
 import Loading from "../../Loading/Loading";
+import useAxios from "../../../Hooks/useAxios";
 
 
 const PopularContests = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios()
   // const { user } = useAuth();
   // const navigate = useNavigate();
 
   const { data: popularContests = [], isLoading } = useQuery({
     queryKey: ["popular-contests"],
     queryFn: async () => {
-      const res = await axiosSecure.get(
+      const res = await axiosInstance.get(
         "/contests?status=approved&sort=popular"
       );
       return res.data;

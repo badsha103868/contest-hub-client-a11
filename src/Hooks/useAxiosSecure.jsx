@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
-// http://localhost:3000
 // https://contest-hub-server-a11.vercel.app
+
 const axiosSecure = axios.create({
   baseURL: "https://contest-hub-server-a11.vercel.app",
 });

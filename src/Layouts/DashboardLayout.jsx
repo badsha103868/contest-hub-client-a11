@@ -4,6 +4,8 @@ import {
   FaPaperPlane,
   FaPlusCircle,
   FaTasks,
+  FaTrophy,
+  FaUserCircle,
   FaUsers,
 } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
@@ -85,7 +87,7 @@ const DashboardLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Winning Contest"
                   >
-                    <FaUsers></FaUsers>
+                    <FaTrophy></FaTrophy>
                     <span className="is-drawer-close:hidden">My Winning Contest</span>
                   </NavLink>
                    </li>
@@ -95,7 +97,7 @@ const DashboardLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Profile"
                   >
-                    <FaUsers></FaUsers>
+                    <FaUserCircle></FaUserCircle>
                     <span className="is-drawer-close:hidden">My Profile</span>
                   </NavLink>
                    </li>
