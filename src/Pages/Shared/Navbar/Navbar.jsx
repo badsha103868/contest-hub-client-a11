@@ -77,7 +77,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-secondary text-white shadow-sm">
+    <div className="navbar bg-secondary text-white shadow-sm sticky top-0 z-50">
       <div className="navbar-start">
         {/* Mobile dropdown */}
         <div ref={mobileMenuRef} className="relative z-50">

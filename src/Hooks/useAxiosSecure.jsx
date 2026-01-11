@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
 // http://localhost:3000
-// https://contest-hub-server-a11.vercel.app
+// http://localhost:3000
 
 const axiosSecure = axios.create({
-  baseURL: "https://contest-hub-server-a11.vercel.app",
+  baseURL: "http://localhost:3000",
 });
 
 const useAxiosSecure = () => {
