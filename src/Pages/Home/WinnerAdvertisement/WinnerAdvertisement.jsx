@@ -1,14 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-
-import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import useAxios from "../../../Hooks/useAxios";
+import Loading from "../../Loading/Loading";
 
 const WinnerAdvertisement = () => {
-  const axiosInstance = useAxios()
+  const axiosInstance = useAxios();
+  const [winners, setWinners] = useState([]);
+  const containerRef = useRef(null);
 
-  const { data: contests = [], } = useQuery({
+  const { data: contests = [], isLoading } = useQuery({
     queryKey: ["winner-contests"],
     queryFn: async () => {
       const res = await axiosInstance.get("/contests?status=approved");
@@ -16,38 +17,49 @@ const WinnerAdvertisement = () => {
     },
   });
 
-  const winners = contests.filter(c => c.winner);
-  const controls = useAnimation();
-
   useEffect(() => {
-    const slideLoop = async () => {
-      while (true) {
-        await controls.start({ x: -300, transition: { duration: 3, ease: "linear" } });
-        await controls.start({ x: 0, transition: { duration: 0 } });
-      }
-    };
-    slideLoop();
-  }, [controls]);
-   
+    if (contests.length) {
+      // Only take contests with winners
+      const winnerContests = contests.filter((c) => c.winner);
+      // Duplicate array for infinite loop effect
+      setWinners([...winnerContests, ...winnerContests]);
+    }
+  }, [contests]);
+
+  if (isLoading) return <Loading />;
+
+  if (winners.length === 0)
+    return (
+      <section className="py-16 text-center text-base-content">
+        <p>No winners yet!</p>
+      </section>
+    );
+
   return (
-    <section className="bg-gradient-to-r from-indigo-600 to-purple-600 py-16 text-white">
+    <section className="py-16 text-base-content">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-6">
+        <h2 className="text-4xl font-bold text-center mb-8">
           🏆 Our Recent Winners
         </h2>
 
-        <div className="overflow-hidden">
+        <div className="overflow-hidden relative p-2">
           <motion.div
-            className="flex gap-6 cursor-grab"
-            drag="x"
-            dragConstraints={{ left: -winners.length * 280, right: 0 }}
-            animate={controls}
+            ref={containerRef}
+            className="flex gap-6"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 20, 
+                ease: "linear",
+              },
+            }}
           >
-            {winners.map((contest) => (
-              <motion.div
-                key={contest._id}
-                className="min-w-[250px] bg-white rounded-xl shadow-lg p-6 text-center"
-                whileHover={{ scale: 1.05, y: -5 }}
+            {winners.map((contest, index) => (
+              <div
+                key={index}
+                className="min-w-[250px] bg-base-100 dark:bg-base-200 rounded-xl shadow-xl p-6 text-center flex-shrink-0"
               >
                 <img
                   src={contest.winner.photo}
@@ -55,13 +67,13 @@ const WinnerAdvertisement = () => {
                   className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-indigo-500"
                 />
                 <h3 className="font-bold text-lg">{contest.winner.name}</h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-300">
                   Winner of {contest.name}
                 </p>
                 <p className="mt-4 text-indigo-600 font-bold text-xl">
                   💰 ৳ {contest.prize_money}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
         </div>

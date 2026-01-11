@@ -13,7 +13,7 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative hero min-h-[65vh] bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white">
+    <section className="relative hero min-h-[65vh] bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-base-content">
       {/* overlay */}
       <div className="hero-overlay bg-black/40"></div>
 
