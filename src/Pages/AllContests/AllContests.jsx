@@ -40,8 +40,36 @@ const AllContests = () => {
     },
   });
 
+  // Skeleton Loader
   if (isLoading) {
-    return <Loading></Loading>;
+    return (
+      <section className="my-20 px-4 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-12">
+          🔥 Popular Contests
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="animate-pulse card bg-base-100 shadow-md border border-base-300 flex flex-col"
+            >
+              <div className="h-52 w-full bg-gray-300 dark:bg-gray-700 rounded-t-xl" />
+
+              <div className="card-body p-4 flex flex-col gap-2">
+                <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-3/4" />
+                <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full mt-1" />
+                <div className="flex justify-between mt-3">
+                  <div className="h-4 w-12 bg-gray-300 dark:bg-gray-700 rounded" />
+                  <div className="h-4 w-12 bg-gray-300 dark:bg-gray-700 rounded" />
+                </div>
+                <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded mt-4 w-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -72,12 +100,12 @@ const AllContests = () => {
         ))}
       </div>
 
-      {/* 🧱 Contest Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Contest Cards */}
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {contests.map((contest) => (
           <div
             key={contest._id}
-            className="card bg-base-100 border border-base-300 shadow-md hover:shadow-xl transition-all duration-300"
+            className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 border border-base-300"
           >
             <figure>
               <img
@@ -91,13 +119,18 @@ const AllContests = () => {
               <h3 className="card-title text-lg">{contest.name}</h3>
 
               <p className="text-sm text-base-content/70">
-                {contest.description?.slice(0, 90)}...
+                {contest.description?.slice(0, 80)}...
               </p>
 
               <div className="flex justify-between items-center mt-3">
-                <span className="badge badge-secondary">
+                <span className="badge badge-secondary py-1 px-2 text-xs">
                   👥 {contest.participants} Joined
                 </span>
+                {contest.prize_money && (
+                  <span className="badge badge-accent py-1 px-2 text-xs">
+                    💰 ৳ {contest.prize_money}
+                  </span>
+                )}
               </div>
 
               <div className="card-actions mt-4">

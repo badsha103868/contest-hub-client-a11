@@ -7,7 +7,7 @@ const ExtraSection = () => {
           <h2 className="text-4xl font-bold mb-6">
             Why Choose ContestHub?
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className=" mb-6">
             ContestHub is more than just a platform — it’s a creative ecosystem.
             Whether you're a designer, writer, or innovator, your talent
             deserves recognition and rewards.

@@ -38,16 +38,12 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-       path:'/all-contests',
-       Component: AllContests
+        path: "/all-contests",
+        Component: AllContests,
       },
       {
         path: "/contestDetails/:id",
-        element: (
-          <PrivateRoute>
-            <ContestDetails></ContestDetails>
-          </PrivateRoute>
-        ),
+        element: <ContestDetails></ContestDetails>,
       },
 
       {
@@ -59,9 +55,9 @@ export const router = createBrowserRouter([
         Component: Contact,
       },
       {
-        path:'/leaderboard',
-        Component:Leaderboard
-      }
+        path: "/leaderboard",
+        Component: Leaderboard,
+      },
     ],
   },
   {
@@ -80,7 +76,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-     element: (
+    element: (
       <PrivateRoute>
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
@@ -89,27 +85,35 @@ export const router = createBrowserRouter([
       // creators only routes
       {
         path: "add-contest",
-        element:<CreatorRoute>
-          <AddContest></AddContest>
-        </CreatorRoute>
+        element: (
+          <CreatorRoute>
+            <AddContest></AddContest>
+          </CreatorRoute>
+        ),
       },
       {
         path: "my-created-contests",
-        element:<CreatorRoute>
-          <MyCreatedContests></MyCreatedContests>
-        </CreatorRoute>
+        element: (
+          <CreatorRoute>
+            <MyCreatedContests></MyCreatedContests>
+          </CreatorRoute>
+        ),
       },
       {
         path: "submissions/:id",
-        element:<CreatorRoute>
-          <Submissions></Submissions>
-        </CreatorRoute>
+        element: (
+          <CreatorRoute>
+            <Submissions></Submissions>
+          </CreatorRoute>
+        ),
       },
       {
         path: "edit-contest/:id",
-       element:<CreatorRoute>
-        <EditContest></EditContest>
-       </CreatorRoute>
+        element: (
+          <CreatorRoute>
+            <EditContest></EditContest>
+          </CreatorRoute>
+        ),
       },
 
       //  users routes only
@@ -129,18 +133,22 @@ export const router = createBrowserRouter([
       //  admin route
       {
         path: "manage-contest",
-        element:<AdminRoute>
-          <ManageContests></ManageContests>
-        </AdminRoute>
+        element: (
+          <AdminRoute>
+            <ManageContests></ManageContests>
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-users",
-        element:<AdminRoute>
-          <ManageUsers></ManageUsers>
-        </AdminRoute>
+        element: (
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
+        ),
       },
       // payment
-        {
+      {
         path: "payment/:parcelId",
         Component: Payment,
       },
@@ -152,7 +160,6 @@ export const router = createBrowserRouter([
         path: "payment-cancelled",
         Component: PaymentCancelled,
       },
-     
     ],
   },
   {
