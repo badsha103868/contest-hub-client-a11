@@ -19,7 +19,7 @@ const ManageUsers = () => {
 
   // Role change function
   const handleRoleChange = async (user, newRole) => {
-    if(user.role === newRole) return; // prevent unnecessary request
+    if(user.role === newRole) return;
     try {
        Swal.fire({
       title: "Are you sure?",

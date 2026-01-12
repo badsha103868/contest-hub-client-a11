@@ -27,7 +27,7 @@ const ContactPage = () => {
       <h1 className="text-4xl font-bold mb-6 text-center text-primary">
         Contact Us
       </h1>
-      <p className="text-gray-700 mb-6 text-center">
+      <p className="text-base-content mb-6 text-center">
         Have any questions, feedback, or inquiries? We’d love to hear from you!
       </p>
 
@@ -88,7 +88,7 @@ const ContactPage = () => {
         </button>
       </form>
 
-      <div className="mt-8 text-center text-gray-600">
+      <div className="mt-8 text-center text-base-content">
         <p>Email: support@contesthub.com</p>
         <p>Phone: +880 1234 567 890</p>
         <p>Address: Dhaka, Bangladesh</p>

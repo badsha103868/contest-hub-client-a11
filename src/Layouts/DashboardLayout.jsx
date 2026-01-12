@@ -3,6 +3,7 @@ import {
   FaFolderOpen,
   FaPaperPlane,
   FaPlusCircle,
+  FaRegChartBar,
   FaTasks,
   FaTrophy,
   FaUserCircle,
@@ -67,31 +68,46 @@ const DashboardLayout = () => {
                 />
               </Link>
             </li>
-         
-              {
-                role === "user" && (
-                  <>
-                   <li>
+
+            {role === "user" && (
+              <>
+                <li>
+                  <NavLink
+                    to=""
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Dashboard Overview"
+                  >
+                    <FaRegChartBar />
+                    <span className="is-drawer-close:hidden">
+                      Dashboard Overview
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
                   <NavLink
                     to="my-participated-contest"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Participated Contest"
                   >
                     <FaUsers></FaUsers>
-                    <span className="is-drawer-close:hidden">My Participated Contest</span>
+                    <span className="is-drawer-close:hidden">
+                      My Participated Contest
+                    </span>
                   </NavLink>
-                   </li>
-                   <li>
+                </li>
+                <li>
                   <NavLink
                     to="my-winning-contest"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Winning Contest"
                   >
                     <FaTrophy></FaTrophy>
-                    <span className="is-drawer-close:hidden">My Winning Contest</span>
+                    <span className="is-drawer-close:hidden">
+                      My Winning Contest
+                    </span>
                   </NavLink>
-                   </li>
-                   <li>
+                </li>
+                <li>
                   <NavLink
                     to="my-profile"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -100,14 +116,25 @@ const DashboardLayout = () => {
                     <FaUserCircle></FaUserCircle>
                     <span className="is-drawer-close:hidden">My Profile</span>
                   </NavLink>
-                   </li>
-                  </>
-                )
-              }
-          
+                </li>
+              </>
+            )}
+
             {/* admin dashboard link */}
             {role === "admin" && (
               <>
+                <li>
+                  <NavLink
+                    to=""
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Dashboard Overview"
+                  >
+                    <FaRegChartBar />
+                    <span className="is-drawer-close:hidden">
+                      Dashboard Overview
+                    </span>
+                  </NavLink>
+                </li>
                 <li>
                   <NavLink
                     to="manage-users"
@@ -138,6 +165,18 @@ const DashboardLayout = () => {
               <>
                 <li>
                   <NavLink
+                    to=""
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Dashboard Overview"
+                  >
+                    <FaRegChartBar />
+                    <span className="is-drawer-close:hidden">
+                      Dashboard Overview
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="add-contest"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Add Contest"
@@ -158,7 +197,6 @@ const DashboardLayout = () => {
                     </span>
                   </NavLink>
                 </li>
-               
               </>
             )}
 

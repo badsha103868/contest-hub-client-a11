@@ -11,13 +11,17 @@ const MyCreatedContests = () => {
   const navigate = useNavigate();
 
   // Load creator's contests
-  const { data: contests = [], refetch } = useQuery({
+  const { data: contestsData = {}, refetch } = useQuery({
     queryKey: ["my-contests", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/contests?email=${user.email}`);
-      return res.data;
+      return res.data; 
     },
+    enabled: !!user?.email,
   });
+
+  // map
+  const contests = contestsData.contests || [];
 
   // Delete contest
   const handleDelete = (id, status) => {
@@ -59,8 +63,7 @@ const MyCreatedContests = () => {
       Swal.fire("Oops!", "You can only edit pending contests.", "warning");
       return;
     }
-  navigate(`/dashboard/edit-contest/${contest._id}`, { state: { contest } });
-
+    navigate(`/dashboard/edit-contest/${contest._id}`, { state: { contest } });
   };
 
   // Navigate to submissions page

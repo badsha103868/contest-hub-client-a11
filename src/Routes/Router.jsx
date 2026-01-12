@@ -27,6 +27,7 @@ import PaymentCancelled from "../Pages/Payment/PaymentCancelled";
 import Leaderboard from "../Pages/Leaderboard/LeaderboardPage";
 import AdminRoute from "./AdminRoute";
 import CreatorRoute from "./CreatorRoute";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+          path:"",
+          Component:DashboardHome
+      },
       // creators only routes
       {
         path: "add-contest",

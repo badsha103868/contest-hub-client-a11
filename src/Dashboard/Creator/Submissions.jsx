@@ -9,7 +9,7 @@ const Submissions = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
 
-  const { data = {}, isLoading } = useQuery({
+  const { data = {}, isLoading,refetch  } = useQuery({
     queryKey: ["contest-submissions", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/contests/${id}/submissions`);
@@ -43,6 +43,7 @@ const Submissions = () => {
                 showConfirmButton: false,
                 timer: 2000,
               });
+              refetch()
             }
           });
       }
