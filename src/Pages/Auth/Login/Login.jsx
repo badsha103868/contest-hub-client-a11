@@ -7,48 +7,66 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-  //  react hook form destructuring
-  const { register, handleSubmit, formState: {errors}} = useForm()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [firebaseError, setFirebaseError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const { signInUser, resetPassword } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // state
-  const [firebaseError, setFirebaseError] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-
-  // authInfo load
-  const { signInUser } = useAuth()
-
-  const location = useLocation()
-  const navigate = useNavigate()
-
-  // handlelogin
-  const handleLogIn = ( data ) =>{
-    console.log('form data', data)
+  const handleLogIn = (data) => {
+    setFirebaseError('');
     signInUser(data.email, data.password)
-    .then((result)=>{
-      const user = result.user
-      console.log(user)
+      .then((result) => {
         Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Login Successful",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-      navigate(location?.state || '/')
-    })
+          position: "top-end",
+          icon: "success",
+          title: "Login Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(location?.state || '/');
+        reset();
+      })
       .catch((error) => {
-        console.log(error.message);
         setFirebaseError(error.message);
       });
-  }
+  };
+
+  //Demo Login
+  const handleDemoLogin = () => {
+    handleLogIn({ email: "badsha129@gmail.com", password: "Badsha1" });
+  };
+
+  // Forgot Password
+  const handleForgotPassword = () => {
+    const email = prompt("Enter your registered email for password reset:");
+    if (!email) return;
+    resetPassword(email)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Password Reset Email Sent",
+          text: `Check your email: ${email}`,
+          confirmButtonColor: "#3085d6",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: err.message,
+        });
+      });
+  };
 
   return (
     <div className="card bg-base-100 mx-auto w-full max-w-sm shrink-0 shadow-2xl">
-      <form onSubmit={handleSubmit(handleLogIn)} className="card-body ">
+      <form onSubmit={handleSubmit(handleLogIn)} className="card-body">
         <h3 className="text-center font-bold text-3xl">Please Login</h3>
-        
+
         <fieldset className="fieldset">
-          {/* email */}
+          {/* Email */}
           <label className="label">Email</label>
           <input
             type="email"
@@ -56,75 +74,54 @@ const Login = () => {
             className="input"
             placeholder="Email"
           />
-          {errors.email?.type === "required" && (
-            <p className="text-red-500">Email is required</p>
-          )}
+          {errors.email?.type === "required" && <p className="text-red-500">Email is required</p>}
 
-          {/* password */}
-          <label className="label ">Password</label>
+          {/* Password */}
+          <label className="label">Password</label>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              {...register("password", {
-                required: true,
-                minLength: 6,
-                // pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
-              })}
-              className="input "
+              {...register("password", { required: true, minLength: 6 })}
+              className="input"
               placeholder="Password"
             />
-            {/*  Show/Hide Button */}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className='btn btn-xs top-2 right-5 absolute'
             >
-              {showPassword ? <FaEye /> :<FaEyeSlash /> }
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </div>
 
-          {/* required error */}
-          {errors.password?.type === "required" && (
-            <p className="text-red-500">Password is required</p>
-          )}
+          {errors.password?.type === "required" && <p className="text-red-500">Password is required</p>}
+          {errors.password?.type === "minLength" && <p className="text-red-500">Password must be 6 characters or longer</p>}
 
-          {/* length error */}
+          {/* Firebase Error */}
+          {firebaseError && <p className="text-red-500 font-semibold">{firebaseError}</p>}
 
-          {errors.password?.type === "minLength" && (
-            <p className="text-red-500">
-              Password must be 6 character or longer
-            </p>
-          )}
-
-          {/* pattern error  */}
-          {errors.password?.type === "pattern" && (
-            <p className="text-red-500">
-              password must have at least on uppercase or lowercase and one
-              number
-            </p>
-          )}
-
-          {/*  Firebase Error Output */}
-          {firebaseError && (
-            <p className="text-red-500 font-semibold">{firebaseError}</p>
-          )}
-          <div>
-            <a className="link link-hover">Forgot password?</a>
+          <div className="flex justify-between items-center mt-2">
+            <button type="button" className="link link-hover text-sm" onClick={handleForgotPassword}>
+              Forgot password?
+            </button>
+            <button type="button" className="btn btn-outline btn-sm" onClick={handleDemoLogin}>
+              Demo Login
+            </button>
           </div>
-          <button className="btn btn-primary mt-4">Login</button>
+
+          <button className="btn btn-primary mt-4 w-full">Login</button>
         </fieldset>
-        <p>
-          New to Contest Hub ?
-          <Link
-            state={location.state}
-            className="text-green-400 underline text-lg"
-            to="/register"
-          >
+
+        <p className="mt-2 text-center">
+          New to Contest Hub?{" "}
+          <Link state={location.state} className="text-green-400 underline text-lg" to="/register">
             Register
           </Link>
         </p>
       </form>
-      <SocialLogin></SocialLogin>
+
+      {/* Google Social Login */}
+      <SocialLogin />
     </div>
   );
 };
