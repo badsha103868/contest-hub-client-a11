@@ -9,22 +9,21 @@ const WinnerAdvertisement = () => {
   const [winners, setWinners] = useState([]);
   const containerRef = useRef(null);
 
-  const { data: contests = [], isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["winner-contests"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/contests?status=approved");
+      const res = await axiosInstance.get("/contests?status=approved&limit=100"); 
       return res.data;
     },
   });
 
   useEffect(() => {
-    if (contests.length) {
-      // Only take contests with winners
-      const winnerContests = contests.filter((c) => c.winner);
-      // Duplicate array for infinite loop effect
-      setWinners([...winnerContests, ...winnerContests]);
+    if (data?.contests?.length) {
+      // Only contests with winner
+      const winnerContests = data.contests.filter((c) => c.winner);
+      setWinners([...winnerContests, ...winnerContests]); 
     }
-  }, [contests]);
+  }, [data]);
 
   if (isLoading) return <Loading />;
 
@@ -51,7 +50,7 @@ const WinnerAdvertisement = () => {
               x: {
                 repeat: Infinity,
                 repeatType: "loop",
-                duration: 20, 
+                duration: 20,
                 ease: "linear",
               },
             }}

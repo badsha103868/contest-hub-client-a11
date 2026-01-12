@@ -9,7 +9,7 @@ const PopularContests = () => {
   // const { user } = useAuth();
   // const navigate = useNavigate();
 
-  const { data: popularContests = [], isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["popular-contests"],
     queryFn: async () => {
       const res = await axiosInstance.get(
@@ -18,6 +18,10 @@ const PopularContests = () => {
       return res.data;
     },
   });
+
+  if (isLoading) return <Loading />;
+
+  const popularContests = data?.contests || [];
   if (isLoading) return <Loading></Loading>;
   return (
     <section className="my-20 px-4 max-w-7xl mx-auto">
